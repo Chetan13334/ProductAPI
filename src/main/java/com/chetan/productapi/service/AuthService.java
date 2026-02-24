@@ -26,7 +26,7 @@ public class AuthService {
     private final RefreshTokenService refreshTokenService;
 
     @Transactional
-    public AuthResponse register(RegisterRequest request) {
+    public void register(RegisterRequest request) {
         if (userRepository.existsByUsername(request.username())) {
             throw new IllegalArgumentException("Username already exists");
         }
@@ -38,7 +38,6 @@ public class AuthService {
                 .build();
 
         userRepository.save(user);
-        return issueTokens(user);
     }
 
     @Transactional

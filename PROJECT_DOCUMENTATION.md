@@ -13,7 +13,7 @@ This is a **Spring Boot REST API** for managing Products with JWT-based authenti
 1. **Register** - `POST /auth/register`
    - Creates a new user with USER role
    - Request: `{"username": "john", "password": "Pass@1234"}`
-   - Response: `{accessToken, refreshToken}`
+   - Response: `201 Created` (No body)
 
 2. **Login** - `POST /auth/login`
    - Authenticates existing user
@@ -393,12 +393,7 @@ curl -X POST http://localhost:8080/api/v1/auth/register \
   -H "Content-Type: application/json" \
   -d '{"username":"john","password":"Pass@1234"}'
 
-# Response:
-{
-  "accessToken": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huIiwicm9sZXMiOlsiUk9MRV9VU0VSIl0sImlhdCI6MTcwNA...",
-  "refreshToken": "5f8a3c2e-9d1b-4f7c-8e3a-2b5d9c7f1a3b",
-  "message": "Registered successfully"
-}
+# Response: 201 Created
 ```
 
 #### **2. Get Products** (No auth needed)

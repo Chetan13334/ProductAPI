@@ -36,18 +36,25 @@ class AuthIntegrationTest {
                 }
                 """.formatted(username);
 
-        String registerResponse = mockMvc.perform(post("/api/v1/auth/register")
+        mockMvc.perform(post("/api/v1/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(registerPayload))
                 .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.accessToken").doesNotExist())
+                .andExpect(jsonPath("$.refreshToken").doesNotExist());
+
+        String loginResponse = mockMvc.perform(post("/api/v1/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(registerPayload))
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$.accessToken").exists())
                 .andExpect(jsonPath("$.refreshToken").exists())
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
 
-        JsonNode registerJson = objectMapper.readTree(registerResponse);
-        String oldRefreshToken = registerJson.get("refreshToken").asText();
+        JsonNode loginJson = objectMapper.readTree(loginResponse);
+        String oldRefreshToken = loginJson.get("refreshToken").asText();
 
         String refreshPayload = """
                 {

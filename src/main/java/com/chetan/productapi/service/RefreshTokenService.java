@@ -23,7 +23,7 @@ public class RefreshTokenService {
 
     @Transactional
     public RefreshToken issueRefreshToken(User user) {
-        refreshTokenRepository.deleteByUser(user);
+        refreshTokenRepository.deleteByUserId(user.getId());
         RefreshToken refreshToken = RefreshToken.builder()
                 .token(UUID.randomUUID().toString())
                 .expiryDate(LocalDateTime.now().plusDays(refreshTokenDays))
